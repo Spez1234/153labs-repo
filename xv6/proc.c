@@ -658,3 +658,7 @@ int waitpid(int pid, int *status, int options)
    }
 }
 
+int setpriority(int priorityvalue)
+{
+	return 0;
+}
