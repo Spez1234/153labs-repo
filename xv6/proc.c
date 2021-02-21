@@ -333,11 +333,11 @@ scheduler(void)
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
    
-    p = getPriorityProc(ptable);
+    //p = getPriorityProc(ptable);
     
     
     
-    /*for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
 
@@ -354,7 +354,7 @@ scheduler(void)
       // Process is done running for now.
       // It should have changed its p->state before coming back.
       c->proc = 0;
-    }*/
+    }
     release(&ptable.lock);
 
   }
@@ -663,7 +663,17 @@ int waitpid(int pid, int *status, int options)
    }
 }
 
-int setpriority(int priorityvalue)
+int setpriority(int value)
 {
-	return 0;
+  struct proc *p = myproc();
+
+  
+  //open process table
+  acquire(&ptable.lock);
+  //set new priority value
+  p->priorityvalue = value;
+  //release process  table
+  release(&ptable.lock);
+
+  return 0; //no issue
 }
