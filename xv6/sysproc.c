@@ -124,3 +124,9 @@ int sys_waitpid(void)
 
   return waitpid(pid, status, options);
 }
+
+int sys_setpriority(void)
+{
+	int priorityvalue;
+	return 0;
+}
