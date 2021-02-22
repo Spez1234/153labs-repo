@@ -671,19 +671,19 @@ int waitpid(int pid, int *status, int options)
    }
 }
 
-int setpriority(int value)
+void setpriority(int value)
 {
   struct proc *p = myproc();
-
+  yield();
+  p->priorityvalue = value;
   
-  //open process table
+  /*/open process table
   acquire(&ptable.lock);
   //set new priority value
   p->priorityvalue = value;
   //release process  table
   release(&ptable.lock);
-
-  return 0; //no issue
+*/
 }
 
 void

@@ -131,5 +131,7 @@ int sys_setpriority(void)
 	
 	argint(0, &value);
 	
-	return setpriority(value);
+	setpriority(value);
+
+	return 0; // not reached
 }
