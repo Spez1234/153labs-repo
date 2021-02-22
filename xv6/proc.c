@@ -337,11 +337,16 @@ scheduler(void)
     {
       if(p->state != RUNNABLE)
 	continue;
-
+      
+      //loop through table again compare pvalue to all processes
+      //if there is p with lower pvalue, make that the new lowest
+      //set to p and cpu processes it.
       lowestp = p;
       for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
 	  if((p->state == RUNNABLE) && (lowestp->priorityvalue > p->priorityvalue))
-		lowestp = p;  
+		lowestp = p; 
+	  else if((p->state == RUNNABLE) && (lowestp->priorityvalue < p->priorityvalue))
+		p->priorityvalue--;
       }
       p = lowestp; 
       // Switch to chosen process.  It is the process's job
@@ -357,6 +362,7 @@ scheduler(void)
       // Process is done running for now.
       // It should have changed its p->state before coming back.
       c->proc = 0;
+      p->priorityvalue++;
     }
     release(&ptable.lock);
  }
