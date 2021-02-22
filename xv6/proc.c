@@ -676,14 +676,6 @@ void setpriority(int value)
   struct proc *p = myproc();
   yield();
   p->priorityvalue = value;
-  
-  /*/open process table
-  acquire(&ptable.lock);
-  //set new priority value
-  p->priorityvalue = value;
-  //release process  table
-  release(&ptable.lock);
-*/
 }
 
 void
