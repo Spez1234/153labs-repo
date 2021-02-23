@@ -346,7 +346,11 @@ scheduler(void)
 	  if((p->state == RUNNABLE) && (lowestp->priorityvalue > p->priorityvalue))
 		lowestp = p; 
 	  else if((p->state == RUNNABLE) && (lowestp->priorityvalue < p->priorityvalue))
+	  {
+		cprintf("pvalue of process(%d) before decrement: %d\n", p->pid, p->priorityvalue);
 		p->priorityvalue--;
+		cprintf("pvalue of process(%d) after decrement: %d\n", p->pid, p->priorityvalue);
+	  }
       }
       p = lowestp; 
       // Switch to chosen process.  It is the process's job
@@ -362,7 +366,9 @@ scheduler(void)
       // Process is done running for now.
       // It should have changed its p->state before coming back.
       c->proc = 0;
+      cprintf("pvalue of process(%d) before increment: %d\n",p->pid, p->priorityvalue);
       p->priorityvalue++;
+      cprintf("pvalue of process(%d) after increment: %d\n", p->pid, p->priorityvalue);
     }
     release(&ptable.lock);
  }
