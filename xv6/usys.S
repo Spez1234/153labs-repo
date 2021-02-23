@@ -33,3 +33,4 @@ SYSCALL(exitS)
 SYSCALL(waitS)
 SYSCALL(waitpid)
 SYSCALL(setpriority)
+SYSCALL(cps);

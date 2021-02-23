@@ -127,11 +127,15 @@ int sys_waitpid(void)
 
 int sys_setpriority(void)
 {
-	int value;
+    int value;
 	
-	argint(0, &value);
-	
-	setpriority(value);
+    argint(0, &value);
+    
+    setpriority(value);
+    return 0;
+}
 
-	return 0; // not reached
+int sys_cps(void)
+{
+    return cps();
 }

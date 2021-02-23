@@ -27,6 +27,7 @@ void exitS(int);
 int waitS(int*);
 int waitpid(int, int*, int);
 void setpriority(int);
+int cps(void);
 
 // ulib.c
 int stat(const char*, struct stat*);

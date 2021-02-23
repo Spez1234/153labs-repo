@@ -121,11 +121,13 @@ int             wait(void);
 void            wakeup(void*);
 void            yield(void);
 
+
 // proc.c (My Calls)
 void		exitS(int);
 int		waitS(int* status);
 int		waitpid(int pid, int* status, int options);
 void		setpriority(int);
+int             cps(void);
 
 // swtch.S
 void            swtch(struct context**, struct context*);
