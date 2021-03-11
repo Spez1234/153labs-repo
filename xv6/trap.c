@@ -81,8 +81,8 @@ trap(struct trapframe *tf)
     //int STACK_TOP = KERNBASE -1;
     if((STACK_TOP > rcr2())&&(rcr2() > STACK_TOP - PGSIZE))
     {
-      int newBottom = STACK_TOP - (PGSIZE*myproc()->stackPages+1);
-      int oldBottom = STACK_TOP - (PGSIZE*myproc()->stackPages);	
+      uint newBottom = STACK_TOP - (PGSIZE*myproc()->stackPages+1);
+      uint oldBottom = STACK_TOP - (PGSIZE*myproc()->stackPages);	
       allocuvm(myproc()->pgdir, newBottom, oldBottom);
       myproc()->stackPages++;
       cprintf("add one page for stack");
