@@ -89,6 +89,15 @@ trap(struct trapframe *tf)
       //clearpteu(myproc()->pgdir, newBottom - PGSIZE);
     }
 
+  case T_PGFLT:
+    if (old_stack_bottom > page_fault_addr && page_fault_addr > old_stack_bottom - page_size)
+    {
+        allocuvm(myproc()->pgdir, new_bottom, old_bottom); //allocate a new page
+        myproc -> StackPages ++; //stack page number + 1
+        cprintf(“add one page for stack”); // message
+        // clearpteu(myproc()->pgdir,new_bottom-PGSIZE)
+    }
+  
   //PAGEBREAK: 13
   default:
     if(myproc() == 0 || (tf->cs&3) == 0){
