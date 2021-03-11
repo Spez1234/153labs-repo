@@ -87,6 +87,7 @@ trap(struct trapframe *tf)
       myproc()->stackPages++;
       cprintf("add one page for stack");
       //clearpteu(myproc()->pgdir, newBottom - PGSIZE);
+      break;
     }
 
   //PAGEBREAK: 13
