@@ -66,9 +66,8 @@ exec(char *path, char **argv)
   if((allocuvm(pgdir, KERNBASE - 1 - PGSIZE, KERNBASE - 1)) == 0)
     goto bad;
   myproc()->stackPages = 1;
-  clearpteu(pgdir, (char*)(KERNBASE - 2*PGSIZE));
-  sp = KERNBASE - 1;
-  cprintf("finished thru new exec code");
+ clearpteu(pgdir, (char*)(KERNBASE - 2*PGSIZE));
+  sp = STACK_TOP;
 
   // Push argument strings, prepare rest of stack in ustack.
   for(argc = 0; argv[argc]; argc++) {
@@ -103,7 +102,6 @@ exec(char *path, char **argv)
   curproc->tf->esp = sp;
   switchuvm(curproc);
   freevm(oldpgdir);
-  cprintf("finished thru exec completely");
   return 0;
 
  bad:

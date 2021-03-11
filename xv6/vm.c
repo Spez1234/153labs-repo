@@ -240,7 +240,6 @@ allocuvm(pde_t *pgdir, uint oldsz, uint newsz)
       return 0;
     }
     memset(mem, 0, PGSIZE);
-	cprintf("alloc mappages");
     if(mappages(pgdir, (char*)a, PGSIZE, V2P(mem), PTE_W|PTE_U) < 0)
     {
       cprintf("allocuvm out of memory (2)\n");
@@ -344,7 +343,7 @@ copyuvm(pde_t *pgdir, uint sz)
       goto bad;
     }
   }
-  for(i = PGROUNDUP(STACK_TOP); i < KERNBASE; i += PGSIZE)
+  for(i = PGROUNDUP(STACK_TOP - myproc()->stackPages*PGSIZE); i < KERNBASE; i += PGSIZE)
   {
     if((pte = walkpgdir(pgdir, (void *) i, 0)) == 0)
       panic("copyum: pte should exist");
