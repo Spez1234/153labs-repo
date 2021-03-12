@@ -61,8 +61,10 @@ exec(char *path, char **argv)
   ip = 0;
 
   // Allocate two pages at the next page boundary.
-  // Make the first inaccessible.  Use the second as the user stack.
+  // Make the second inaccessible.  Use the first as userstack.
   sz = PGROUNDUP(sz);
+  // Take old bottom of user virtual memory and shift 1 increasing memory space. 
+  // If allocuvm(...) == 0 return error.
   if((allocuvm(pgdir, KERNBASE - sz*PGSIZE, KERNBASE - 1)) == 0)
     goto bad;
   //clearpteu(pgdir, (char*)(KERNBASE - 1*PGSIZE));
@@ -99,7 +101,7 @@ exec(char *path, char **argv)
   curproc->sz = sz;
   curproc->tf->eip = elf.entry;  // main
   curproc->tf->esp = sp;
-  curproc->stackPages = 1;
+  curproc->stackPages = 1; //lab3 initialize stackPages to 1
   switchuvm(curproc);
   freevm(oldpgdir);
   return 0;

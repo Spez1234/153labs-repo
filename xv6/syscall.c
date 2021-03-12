@@ -17,10 +17,10 @@
 int
 fetchint(uint addr, int *ip)
 {
-  //struct proc *curproc = myproc();
-
-  if(addr >= KERNBASE || addr+4 > KERNBASE)
-    return -1;
+  //check to see if address is greater or equal to stack top. If it is
+  //return error
+  if(addr >= STACK_TOP || addr+4 > STACK_TOP)
+     return -1;
   *ip = *(int*)(addr);
   return 0;
 }
@@ -32,10 +32,10 @@ int
 fetchstr(uint addr, char **pp)
 {
   char *s, *ep;
- // struct proc *curproc = myproc();
-
-  if(addr >= KERNBASE)
-    return -1;
+  
+  // again check if address is greater than or equal stacktop. Return error if it is
+  if(addr >= STACK_TOP)
+      return -1;
   *pp = (char*)addr;
   ep = (char*)KERNBASE;
   for(s = *pp; s < ep; s++){
@@ -59,11 +59,11 @@ int
 argptr(int n, char **pp, int size)
 {
   int i;
-  //struct proc *curproc = myproc();
  
   if(argint(n, &i) < 0)
     return -1;
-  if(size < 0 || (uint)i >= KERNBASE || (uint)i+size > KERNBASE)
+  //check to see if valid size pointer
+  if(size < 0 || (uint)i >= STACK_TOP || (uint)i+size > STACK_TOP)
     return -1;
   *pp = (char*)i;
   return 0;

@@ -342,6 +342,10 @@ copyuvm(pde_t *pgdir, uint sz)
       goto bad;
     }
   }
+
+  //  After coping memory for heap, and user data in previous loop.
+  //  Copy the memory between the stack top and depth of the userstack
+  //  and pageguard 
   for(i = PGROUNDUP(STACK_TOP - PGSIZE*myproc()->stackPages); i < STACK_TOP; i += PGSIZE)
   {
     if((pte = walkpgdir(pgdir, (void *) i, 0)) == 0)
