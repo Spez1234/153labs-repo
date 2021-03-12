@@ -328,7 +328,7 @@ copyuvm(pde_t *pgdir, uint sz)
   for(i = 0; i < sz; i += PGSIZE)
   {
     if((pte = walkpgdir(pgdir, (void *) i, 0)) == 0)
-      panic("copyuvm: pte should exist");
+       panic("copyuvm: pte should exist");
     if(!(*pte & PTE_P))
       panic("copyuvm: page not present");
     pa = PTE_ADDR(*pte);
@@ -336,14 +336,13 @@ copyuvm(pde_t *pgdir, uint sz)
     if((mem = kalloc()) == 0)
       goto bad;
     memmove(mem, (char*)P2V(pa), PGSIZE);
-//	cprintf("copy mappages 1");
     if(mappages(d, (void*)i, PGSIZE, V2P(mem), flags) < 0) 
     {
       kfree(mem);
       goto bad;
     }
   }
-  for(i = PGROUNDUP(STACK_TOP - myproc()->stackPages*PGSIZE); i < KERNBASE; i += PGSIZE)
+  for(i = PGROUNDUP(STACK_TOP - PGSIZE*myproc()->stackPages); i < STACK_TOP; i += PGSIZE)
   {
     if((pte = walkpgdir(pgdir, (void *) i, 0)) == 0)
       panic("copyum: pte should exist");
@@ -354,7 +353,6 @@ copyuvm(pde_t *pgdir, uint sz)
     if((mem = kalloc()) == 0)
       goto bad;
     memmove(mem, (char*)P2V(pa), PGSIZE);
-//	cprintf("copy map pages 2");
     if(mappages(d, (void*)i, PGSIZE, V2P(mem), flags) < 0) 
     {
       kfree(mem);
